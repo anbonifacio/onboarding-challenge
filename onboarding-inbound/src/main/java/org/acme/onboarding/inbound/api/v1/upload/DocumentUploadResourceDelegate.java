@@ -2,7 +2,8 @@ package org.acme.onboarding.inbound.api.v1.upload;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
-import org.acme.onboarding.domain.model.Username;
+import org.acme.onboarding.domain.model.user.Email;
+import org.acme.onboarding.domain.model.user.Username;
 import org.acme.onboarding.domain.upload.service.DocumentUploadService;
 import org.acme.onboarding.inbound.annotation.InboundDelegate;
 import org.jboss.resteasy.reactive.multipart.FileUpload;
@@ -22,7 +23,7 @@ public class DocumentUploadResourceDelegate implements DocumentUploadResource {
     }
 
     @Override
-    public CompletionStage<Void> upload(FileUpload file, Username username) {
-        return service.upload(file.uploadedFile().toFile(), username);
+    public CompletionStage<Void> upload(FileUpload file, Username username, Email email) {
+        return service.upload(file.uploadedFile().toFile(), username, email);
     }
 }
