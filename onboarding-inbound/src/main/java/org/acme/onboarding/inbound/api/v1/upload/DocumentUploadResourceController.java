@@ -24,7 +24,8 @@ public class DocumentUploadResourceController {
     private final DocumentUploadResource delegate;
 
     @Inject
-    public DocumentUploadResourceController(JsonWebToken jsonWebToken, @InboundDelegate DocumentUploadResource delegate) {
+    public DocumentUploadResourceController(
+            JsonWebToken jsonWebToken, @InboundDelegate DocumentUploadResource delegate) {
         this.jsonWebToken = jsonWebToken;
         this.delegate = delegate;
     }

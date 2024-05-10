@@ -25,6 +25,9 @@ public class DocumentUploadServiceImpl implements DocumentUploadService {
     @Override
     public CompletionStage<Void> upload(File file, Username username, Email email) {
 
-        return ocrRepository.processDocument(file).thenCompose(processedDocument -> idDocumentRepository.persistDocumentData(processedDocument, username, email));
+        return ocrRepository
+                .processDocument(file)
+                .thenCompose(processedDocument ->
+                        idDocumentRepository.persistDocumentData(processedDocument, username, email));
     }
 }
