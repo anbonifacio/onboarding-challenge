@@ -1,4 +1,4 @@
-package org.acme.onboarding.outbound.repository.jpa.entity;
+package org.acme.onboarding.outbound.id_document.jpa.repository.entity;
 
 import jakarta.persistence.*;
 import org.acme.onboarding.domain.model.id_document.IdDocumentType;
@@ -9,16 +9,20 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import static org.acme.onboarding.outbound.repository.jpa.entity.IdDocumentEntity.FIND_BY_USERNAME;
+import static org.acme.onboarding.outbound.id_document.jpa.repository.entity.IdDocumentEntity.FIND_BY_USERNAME_QUERY;
 
 @Entity
 @Table(name = "id_document", schema = "onboarding")
 @NamedQuery(
-        name = FIND_BY_USERNAME,
-        query = "select iddoc from IdDocumentEntity iddoc where iddoc.username =:" + IdDocumentEntity.USERNAME)
+        name = FIND_BY_USERNAME_QUERY,
+        query = "select iddoc from IdDocumentEntity iddoc where iddoc.username =:" + IdDocumentEntity.USERNAME_PARAM)
+@NamedQuery(
+        name = IdDocumentEntity.FIND_EMAILS_FOR_EXPIRED_DOCUMENTS_QUERY,
+        query = "select email from IdDocumentEntity iddoc where iddoc.idDocumentExpiringDate <= current_date ")
 public class IdDocumentEntity {
-    public static final String FIND_BY_USERNAME = "FIND_BY_USERNAME";
-    public static final String USERNAME = "USERNAME";
+    public static final String FIND_EMAILS_FOR_EXPIRED_DOCUMENTS_QUERY = "FIND_EMAILS_FOR_EXPIRED_DOCUMENTS";
+    public static final String FIND_BY_USERNAME_QUERY = "FIND_BY_USERNAME";
+    public static final String USERNAME_PARAM = "USERNAME";
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

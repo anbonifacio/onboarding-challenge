@@ -1,4 +1,4 @@
-package org.acme.onboarding.outbound.repository.jpa.impl;
+package org.acme.onboarding.outbound.id_document.jpa.repository.impl;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -8,15 +8,15 @@ import org.acme.onboarding.domain.model.id_document.ProcessedDocument;
 import org.acme.onboarding.domain.model.user.Email;
 import org.acme.onboarding.domain.model.user.Username;
 import org.acme.onboarding.domain.repository.IdDocumentRepository;
-import org.acme.onboarding.outbound.repository.jpa.entity.IdDocumentEntity;
+import org.acme.onboarding.outbound.id_document.jpa.repository.entity.IdDocumentEntity;
 import org.eclipse.microprofile.context.ManagedExecutor;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.concurrent.CompletionStage;
 
 import static java.util.concurrent.CompletableFuture.runAsync;
-import static org.acme.onboarding.outbound.repository.jpa.entity.IdDocumentEntity.FIND_BY_USERNAME;
-import static org.acme.onboarding.outbound.repository.jpa.entity.IdDocumentEntity.USERNAME;
+import static org.acme.onboarding.outbound.id_document.jpa.repository.entity.IdDocumentEntity.*;
 
 @ApplicationScoped
 public class IdDocumentRepositoryImpl implements IdDocumentRepository {
@@ -31,13 +31,22 @@ public class IdDocumentRepositoryImpl implements IdDocumentRepository {
 
     @Override
     public CompletionStage<Void> persistDocumentData(ProcessedDocument idDocument, Username username, Email email) {
-        return runAsync(() -> persistDocument(idDocument, username, email), executor);
+        return runAsync(() -> persistDocumentSync(idDocument, username, email), executor);
+    }
+
+    @Override
+    @Transactional
+    public List<Email> findEmailsForExpiredDocuments() {
+        return em.createNamedQuery(FIND_EMAILS_FOR_EXPIRED_DOCUMENTS_QUERY, String.class)
+                .getResultStream()
+                .map(Email::new)
+                .toList();
     }
 
     @Transactional
-    public void persistDocument(ProcessedDocument idDocument, Username username, Email email) {
-        em.createNamedQuery(FIND_BY_USERNAME, IdDocumentEntity.class)
-                .setParameter(USERNAME, username.value().toUpperCase())
+    public void persistDocumentSync(ProcessedDocument idDocument, Username username, Email email) {
+        em.createNamedQuery(FIND_BY_USERNAME_QUERY, IdDocumentEntity.class)
+                .setParameter(USERNAME_PARAM, username.value().toUpperCase())
                 .getResultStream()
                 .findFirst()
                 .ifPresentOrElse(
