@@ -1,3 +1,3 @@
 package org.acme.onboarding.domain.model.user;
 
-public record Email(String email) {}
+public record Email(String value) {}

@@ -32,8 +32,8 @@ public class OcrRepositoryImpl implements OcrRepository {
     public CompletionStage<ProcessedDocument> processDocument(File file) {
         return Try.of(() -> Files.readAllBytes(file.toPath()))
                 .map(Base64.getEncoder()::encodeToString)
-                .map(base64 -> ocrClient.processDocument(new IdDocumentRequest(base64)))
                 .toCompletionStage()
-                .thenCompose(x -> x.thenApply(mapper::map));
+                .thenApply(base64 -> ocrClient.processDocument(new IdDocumentRequest(base64)))
+                .thenCompose(processed -> processed.thenApply(mapper::map));
     }
 }

@@ -17,11 +17,11 @@ public class OcrClientMockImpl implements OcrClient {
     @Override
     public CompletionStage<ProcessedDocumentResponse> processDocument(IdDocumentRequest request) {
         return completedStage(new ProcessedDocumentResponse(
-                "",
-                "",
+                "BNFNTN85E06L738I",
+                "123456789",
                 "PASSPORT",
                 LocalDate.now().minusMonths(1),
                 LocalDate.now().plusYears(5),
-                ""));
+                "https://google.it"));
     }
 }

@@ -1,6 +1,7 @@
 package org.acme.onboarding.outbound.ocr.repository.client.mapper;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import org.acme.onboarding.domain.exception.RepositoryException;
 import org.acme.onboarding.domain.model.id_document.IdDocumentType;
 
 @ApplicationScoped
@@ -10,7 +11,7 @@ public class IdDocumentTypeMapper {
             case "ID_CARD" -> IdDocumentType.ID_CARD;
             case "DRIVING_LICENSE" -> IdDocumentType.DRIVING_LICENSE;
             case "PASSPORT" -> IdDocumentType.PASSPORT;
-            default -> throw new IllegalStateException("Unexpected value: " + documentType);
+            default -> throw new RepositoryException(new IllegalStateException("Unexpected value: " + documentType));
         };
     }
 }

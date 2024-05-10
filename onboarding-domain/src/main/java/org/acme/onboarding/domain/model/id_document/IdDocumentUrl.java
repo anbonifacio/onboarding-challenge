@@ -1,3 +1,3 @@
 package org.acme.onboarding.domain.model.id_document;
 
-public record IdDocumentUrl(String url) {}
+public record IdDocumentUrl(String value) {}
