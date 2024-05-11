@@ -9,7 +9,7 @@ import java.util.List;
 @ApplicationScoped
 public class EmailReminderRequestMapper {
     public EmailReminderRequest map(List<Email> emails) {
-        var req = emails.stream().map(email -> email.value()).toList();
+        var req = emails.stream().map(Email::value).toList();
         return new EmailReminderRequest(req);
     }
 }

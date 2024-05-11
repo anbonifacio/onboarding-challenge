@@ -24,6 +24,10 @@
         <surefire-plugin.version>3.2.5</surefire-plugin.version>
         <version.plugin.spotless>2.43.0</version.plugin.spotless>
         <version.plugin.palantir>2.46.0</version.plugin.palantir>
+        <version.assertj>3.25.3</version.assertj>
+        <version.mockito>5.11.0</version.mockito>
+        <version.instancio>4.5.1</version.instancio>
+        <version.equalsverifier>3.16.1</version.equalsverifier>
     </properties>
 
     <dependencyManagement>
@@ -55,10 +59,42 @@
             <artifactId>quarkus-junit5</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>io.github.anbonifacio</groupId>
             <artifactId>try-monad</artifactId>
             <version>1.0.2</version>
+        </dependency>
+
+        <!-- = test frameworks = -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${version.assertj}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${version.mockito}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${version.mockito}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>nl.jqno.equalsverifier</groupId>
+            <artifactId>equalsverifier</artifactId>
+            <version>${version.equalsverifier}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.instancio</groupId>
+            <artifactId>instancio-junit</artifactId>
+            <version>${version.instancio}</version>
         </dependency>
     </dependencies>
 

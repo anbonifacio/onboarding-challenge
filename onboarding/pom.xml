@@ -15,6 +15,7 @@
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <version.restassured>5.4.0</version.restassured>
     </properties>
 
     <dependencies>
@@ -32,6 +33,12 @@
             <groupId>${parent.groupId}</groupId>
             <artifactId>onboarding-inbound</artifactId>
             <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${version.restassured}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

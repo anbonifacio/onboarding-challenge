@@ -9,12 +9,10 @@ import org.acme.onboarding.inbound.annotation.InboundDelegate;
 import org.jboss.resteasy.reactive.multipart.FileUpload;
 
 import java.util.concurrent.CompletionStage;
-import java.util.logging.Logger;
 
 @RequestScoped
 @InboundDelegate
 public class DocumentUploadResourceDelegate implements DocumentUploadResource {
-    private final Logger log = Logger.getLogger(getClass().getName());
     private final DocumentUploadService service;
 
     @Inject

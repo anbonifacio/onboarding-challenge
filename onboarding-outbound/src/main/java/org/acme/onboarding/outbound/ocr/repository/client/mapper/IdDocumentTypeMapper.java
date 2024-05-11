@@ -11,6 +11,8 @@ public class IdDocumentTypeMapper {
             case "ID_CARD" -> IdDocumentType.ID_CARD;
             case "DRIVING_LICENSE" -> IdDocumentType.DRIVING_LICENSE;
             case "PASSPORT" -> IdDocumentType.PASSPORT;
+                // FIXME: Java 21 supports "case null, default ->" but breaks palantir-java-formatter
+            case null -> throw new RepositoryException(new IllegalStateException("Null value"));
             default -> throw new RepositoryException(new IllegalStateException("Unexpected value: " + documentType));
         };
     }
