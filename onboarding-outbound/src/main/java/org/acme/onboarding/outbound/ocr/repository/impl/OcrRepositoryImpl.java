@@ -3,6 +3,7 @@ package org.acme.onboarding.outbound.ocr.repository.impl;
 import io.github.anbonifacio.try_monad.Try;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.acme.onboarding.domain.exception.RepositoryException;
 import org.acme.onboarding.domain.model.id_document.ProcessedDocument;
 import org.acme.onboarding.domain.repository.OcrRepository;
 import org.acme.onboarding.outbound.ocr.repository.client.OcrClient;
@@ -34,6 +35,10 @@ public class OcrRepositoryImpl implements OcrRepository {
                 .map(Base64.getEncoder()::encodeToString)
                 .toCompletionStage()
                 .thenApply(base64 -> ocrClient.processDocument(new IdDocumentRequest(base64)))
-                .thenCompose(processed -> processed.thenApply(mapper::map));
+                .thenCompose(processed -> processed.thenApply(mapper::map))
+                .exceptionally(ex -> {
+                    log.severe(ex::getMessage);
+                    throw new RepositoryException("Failed to process document", ex);
+                });
     }
 }

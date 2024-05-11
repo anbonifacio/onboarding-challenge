@@ -10,12 +10,16 @@ import java.time.LocalDate;
 import java.util.concurrent.CompletionStage;
 
 import static java.util.concurrent.CompletableFuture.completedStage;
+import static java.util.concurrent.CompletableFuture.failedStage;
 
 @RequestScoped
 @RegisterRestClient
 public class OcrClientMockImpl implements OcrClient {
     @Override
     public CompletionStage<ProcessedDocumentResponse> processDocument(IdDocumentRequest request) {
+        if (Math.random() < 0.2) {
+            return failedStage(new RuntimeException("Processed document failed"));
+        }
         return completedStage(new ProcessedDocumentResponse(
                 "BNFNTN85E06L738I",
                 "123456789",

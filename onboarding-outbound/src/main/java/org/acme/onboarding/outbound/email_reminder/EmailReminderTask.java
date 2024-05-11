@@ -15,7 +15,7 @@ import static java.util.concurrent.CompletableFuture.runAsync;
 
 @ApplicationScoped
 public class EmailReminderTask {
-    private static final int BATCH_PROCESS = 100;
+    private static final int BATCH_SIZE = 100;
     private final IdDocumentRepository documentRepository;
     private final EmailReminderRepository emailReminderRepository;
     private final ManagedExecutor executor;
@@ -36,7 +36,7 @@ public class EmailReminderTask {
     void scheduleEmailReminder() {
         AtomicInteger counter = new AtomicInteger();
         var emails = documentRepository.findEmailsForExpiredDocuments().stream()
-                .collect(Collectors.groupingBy(unused -> counter.getAndDecrement() / BATCH_PROCESS))
+                .collect(Collectors.groupingBy(unused -> counter.getAndDecrement() / BATCH_SIZE))
                 .values()
                 .stream()
                 .flatMap(Collection::stream)
