@@ -1,4 +1,4 @@
-package org.acme.onboarding.outbound.email_reminder;
+package org.acme.onboarding.outbound.email_reminder.task;
 
 import io.quarkus.scheduler.Scheduled;
 import jakarta.enterprise.context.ApplicationScoped;

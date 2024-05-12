@@ -1,8 +1,8 @@
-package org.acme.onboarding.outbound.email_reminder.client.mapper;
+package org.acme.onboarding.outbound.email_reminder.repository.client.mapper;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import org.acme.onboarding.domain.model.user.Email;
-import org.acme.onboarding.outbound.email_reminder.client.model.EmailReminderRequest;
+import org.acme.onboarding.outbound.email_reminder.repository.client.model.EmailReminderRequest;
 
 import java.util.List;
 

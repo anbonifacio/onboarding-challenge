@@ -1,4 +1,4 @@
-package org.acme.onboarding.outbound.id_document.jpa.repository.entity;
+package org.acme.onboarding.outbound.id_document.repository.jpa.entity;
 
 import jakarta.persistence.*;
 import org.acme.onboarding.domain.model.id_document.IdDocumentType;
@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import static org.acme.onboarding.outbound.id_document.jpa.repository.entity.IdDocumentEntity.FIND_BY_USERNAME_QUERY;
+import static org.acme.onboarding.outbound.id_document.repository.jpa.entity.IdDocumentEntity.FIND_BY_USERNAME_QUERY;
 
 @Entity
 @Table(name = "id_document", schema = "onboarding")

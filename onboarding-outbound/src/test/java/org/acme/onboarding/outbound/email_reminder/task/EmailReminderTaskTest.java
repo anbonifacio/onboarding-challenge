@@ -1,4 +1,4 @@
-package org.acme.onboarding.outbound.email_reminder;
+package org.acme.onboarding.outbound.email_reminder.task;
 
 import org.acme.onboarding.domain.model.user.Email;
 import org.acme.onboarding.domain.repository.EmailReminderRepository;

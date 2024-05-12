@@ -1,10 +1,10 @@
-package org.acme.onboarding.outbound.id_document.jpa.repository.impl;
+package org.acme.onboarding.outbound.id_document.repository.jpa.impl;
 
 import jakarta.persistence.EntityManager;
 import org.acme.onboarding.domain.model.id_document.ProcessedDocument;
 import org.acme.onboarding.domain.model.user.Email;
 import org.acme.onboarding.domain.model.user.Username;
-import org.acme.onboarding.outbound.id_document.jpa.repository.entity.IdDocumentEntity;
+import org.acme.onboarding.outbound.id_document.repository.jpa.entity.IdDocumentEntity;
 import org.eclipse.microprofile.context.ManagedExecutor;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +19,6 @@ import java.util.concurrent.CompletionStage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Answers.RETURNS_DEEP_STUBS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;

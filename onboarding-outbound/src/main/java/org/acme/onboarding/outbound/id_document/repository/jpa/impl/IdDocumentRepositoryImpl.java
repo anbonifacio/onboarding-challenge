@@ -1,4 +1,4 @@
-package org.acme.onboarding.outbound.id_document.jpa.repository.impl;
+package org.acme.onboarding.outbound.id_document.repository.jpa.impl;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -8,7 +8,7 @@ import org.acme.onboarding.domain.model.id_document.ProcessedDocument;
 import org.acme.onboarding.domain.model.user.Email;
 import org.acme.onboarding.domain.model.user.Username;
 import org.acme.onboarding.domain.repository.IdDocumentRepository;
-import org.acme.onboarding.outbound.id_document.jpa.repository.entity.IdDocumentEntity;
+import org.acme.onboarding.outbound.id_document.repository.jpa.entity.IdDocumentEntity;
 import org.eclipse.microprofile.context.ManagedExecutor;
 
 import java.time.Instant;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.concurrent.CompletionStage;
 
 import static java.util.concurrent.CompletableFuture.runAsync;
-import static org.acme.onboarding.outbound.id_document.jpa.repository.entity.IdDocumentEntity.*;
+import static org.acme.onboarding.outbound.id_document.repository.jpa.entity.IdDocumentEntity.*;
 
 @ApplicationScoped
 public class IdDocumentRepositoryImpl implements IdDocumentRepository {

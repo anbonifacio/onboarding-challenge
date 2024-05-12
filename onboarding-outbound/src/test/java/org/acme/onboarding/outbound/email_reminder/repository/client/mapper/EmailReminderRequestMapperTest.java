@@ -1,7 +1,7 @@
-package org.acme.onboarding.outbound.email_reminder.client.mapper;
+package org.acme.onboarding.outbound.email_reminder.repository.client.mapper;
 
 import org.acme.onboarding.domain.model.user.Email;
-import org.acme.onboarding.outbound.email_reminder.client.model.EmailReminderRequest;
+import org.acme.onboarding.outbound.email_reminder.repository.client.model.EmailReminderRequest;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

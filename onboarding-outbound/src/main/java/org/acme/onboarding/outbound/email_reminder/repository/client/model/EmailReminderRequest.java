@@ -1,4 +1,4 @@
-package org.acme.onboarding.outbound.email_reminder.client.model;
+package org.acme.onboarding.outbound.email_reminder.repository.client.model;
 
 import java.util.List;
 

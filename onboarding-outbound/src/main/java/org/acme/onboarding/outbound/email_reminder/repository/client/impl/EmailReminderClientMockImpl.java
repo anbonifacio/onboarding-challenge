@@ -1,8 +1,8 @@
-package org.acme.onboarding.outbound.email_reminder.client.impl;
+package org.acme.onboarding.outbound.email_reminder.repository.client.impl;
 
 import jakarta.enterprise.context.RequestScoped;
-import org.acme.onboarding.outbound.email_reminder.client.EmailReminderClient;
-import org.acme.onboarding.outbound.email_reminder.client.model.EmailReminderRequest;
+import org.acme.onboarding.outbound.email_reminder.repository.client.EmailReminderClient;
+import org.acme.onboarding.outbound.email_reminder.repository.client.model.EmailReminderRequest;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import java.util.concurrent.CompletionStage;

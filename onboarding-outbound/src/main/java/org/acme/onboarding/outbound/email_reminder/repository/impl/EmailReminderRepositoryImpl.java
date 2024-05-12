@@ -1,11 +1,11 @@
-package org.acme.onboarding.outbound.email_reminder.impl;
+package org.acme.onboarding.outbound.email_reminder.repository.impl;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.acme.onboarding.domain.model.user.Email;
 import org.acme.onboarding.domain.repository.EmailReminderRepository;
-import org.acme.onboarding.outbound.email_reminder.client.EmailReminderClient;
-import org.acme.onboarding.outbound.email_reminder.client.mapper.EmailReminderRequestMapper;
+import org.acme.onboarding.outbound.email_reminder.repository.client.EmailReminderClient;
+import org.acme.onboarding.outbound.email_reminder.repository.client.mapper.EmailReminderRequestMapper;
 
 import java.util.List;
 import java.util.concurrent.CompletionStage;
