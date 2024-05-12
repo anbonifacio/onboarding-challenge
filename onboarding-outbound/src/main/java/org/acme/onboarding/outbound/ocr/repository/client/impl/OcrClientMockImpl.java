@@ -1,6 +1,7 @@
 package org.acme.onboarding.outbound.ocr.repository.client.impl;
 
 import jakarta.enterprise.context.RequestScoped;
+import org.acme.onboarding.domain.model.id_document.IdDocumentType;
 import org.acme.onboarding.outbound.ocr.repository.client.OcrClient;
 import org.acme.onboarding.outbound.ocr.repository.client.model.IdDocumentRequest;
 import org.acme.onboarding.outbound.ocr.repository.client.model.ProcessedDocumentResponse;
@@ -20,6 +21,9 @@ public class OcrClientMockImpl implements OcrClient {
         if (Math.random() < 0.2) {
             return failedStage(new RuntimeException("Processed document failed"));
         }
-        return completedStage(Instancio.of(ProcessedDocumentResponse.class).create());
+        return completedStage(Instancio.of(ProcessedDocumentResponse.Builder.class)
+                .create()
+                .withIdDocumentType(Instancio.of(IdDocumentType.class).create().name())
+                .build());
     }
 }

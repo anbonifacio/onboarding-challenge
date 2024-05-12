@@ -31,13 +31,14 @@ class ProcessedDocumentMapperTest {
         // given
         var response = Instancio.of(ProcessedDocumentResponse.class).create();
         var idDocumentType = Instancio.of(IdDocumentType.class).create();
-        var expected = new ProcessedDocument(
-                new FiscalCode(response.fiscalCode()),
-                new IdDocumentNumber(response.idDocumentNumber()),
-                idDocumentType,
-                response.issuingDate(),
-                response.expiringDate(),
-                new IdDocumentUrl(response.idDocumentUrl()));
+        var expected = ProcessedDocument.Builder.builder()
+                .withFiscalCode(new FiscalCode(response.fiscalCode()))
+                .withIdDocumentNumber(new IdDocumentNumber(response.idDocumentNumber()))
+                .withIdDocumentType(idDocumentType)
+                .withIssuingDate(response.issuingDate())
+                .withExpiringDate(response.expiringDate())
+                .withDocumentUrl(new IdDocumentUrl(response.idDocumentUrl()))
+                .build();
 
         given(typeMapper.map(response.idDocumentType())).willReturn(idDocumentType);
 

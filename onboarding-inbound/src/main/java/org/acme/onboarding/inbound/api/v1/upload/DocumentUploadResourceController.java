@@ -16,6 +16,8 @@ import org.jboss.resteasy.reactive.multipart.FileUpload;
 import java.util.concurrent.CompletionStage;
 import java.util.logging.Logger;
 
+import static java.util.concurrent.CompletableFuture.failedStage;
+
 @RequestScoped
 @Path("/api/v1/documents")
 public class DocumentUploadResourceController {
@@ -35,9 +37,17 @@ public class DocumentUploadResourceController {
     @Produces(MediaType.APPLICATION_JSON)
     @PermissionsAllowed("email")
     public CompletionStage<Void> upload(@RestForm("image") FileUpload file) {
-        var email = jsonWebToken.getClaim(Claims.email.name()).toString();
-        var username = jsonWebToken.getClaim(Claims.preferred_username.name()).toString();
-        log.info(() -> "Getting the username '%s' and email '%s' from the JWT".formatted(username, email));
-        return delegate.upload(file, new Username(username), new Email(email));
+        if (jsonWebToken.getClaim(Claims.email_verified.name())) {
+            if (file == null) {
+                return failedStage(new BadRequestException("Missing file"));
+            }
+            var email = jsonWebToken.getClaim(Claims.email.name()).toString();
+            var username =
+                    jsonWebToken.getClaim(Claims.preferred_username.name()).toString();
+            log.info(() -> "Getting the username '%s' and email '%s' from the JWT".formatted(username, email));
+            return delegate.upload(file, new Username(username), new Email(email));
+        } else {
+            return failedStage(new ForbiddenException("Not authorized"));
+        }
     }
 }

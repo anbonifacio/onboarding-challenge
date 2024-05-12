@@ -18,12 +18,13 @@ public class ProcessedDocumentMapper {
     }
 
     public ProcessedDocument map(ProcessedDocumentResponse response) {
-        return new ProcessedDocument(
-                new FiscalCode(response.fiscalCode()),
-                new IdDocumentNumber(response.idDocumentNumber()),
-                typeMapper.map(response.idDocumentType()),
-                response.issuingDate(),
-                response.expiringDate(),
-                new IdDocumentUrl(response.idDocumentUrl()));
+        return ProcessedDocument.Builder.builder()
+                .withFiscalCode(new FiscalCode(response.fiscalCode()))
+                .withIdDocumentNumber(new IdDocumentNumber(response.idDocumentNumber()))
+                .withIdDocumentType(typeMapper.map(response.idDocumentType()))
+                .withIssuingDate(response.issuingDate())
+                .withExpiringDate(response.expiringDate())
+                .withDocumentUrl(new IdDocumentUrl(response.idDocumentUrl()))
+                .build();
     }
 }
