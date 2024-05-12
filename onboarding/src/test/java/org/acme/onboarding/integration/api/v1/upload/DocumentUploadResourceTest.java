@@ -5,9 +5,14 @@ import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.oidc.client.OidcTestClient;
 import io.restassured.RestAssured;
 import io.restassured.builder.MultiPartSpecBuilder;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.acme.onboarding.domain.model.id_document.ProcessedDocument;
 import org.acme.onboarding.domain.repository.OcrRepository;
+import org.acme.onboarding.integration.DbIntegrationUtils;
 import org.instancio.Instancio;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -22,6 +27,16 @@ class DocumentUploadResourceTest {
 
     @InjectMock
     OcrRepository ocrRepository;
+
+    @Inject
+    EntityManager em;
+
+    @AfterEach
+    @Transactional
+    void tearDown() {
+        var dropDb = DbIntegrationUtils.readFile("drop_db.sql");
+        DbIntegrationUtils.runSqlScript(dropDb, em);
+    }
 
     @Test
     void shouldGive204WhenDocumentIsUploaded() {

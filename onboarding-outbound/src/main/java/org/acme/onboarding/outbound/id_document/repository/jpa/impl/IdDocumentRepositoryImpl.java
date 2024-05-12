@@ -44,33 +44,36 @@ public class IdDocumentRepositoryImpl implements IdDocumentRepository {
     }
 
     @Transactional
-    public void persistDocumentSync(ProcessedDocument idDocument, Username username, Email email) {
+    void persistDocumentSync(ProcessedDocument idDocument, Username username, Email email) {
         em.createNamedQuery(FIND_BY_USERNAME_QUERY, IdDocumentEntity.class)
                 .setParameter(USERNAME_PARAM, username.value().toUpperCase())
                 .getResultStream()
                 .findFirst()
                 .ifPresentOrElse(
-                        found -> {
-                            found.setIdDocumentExpiringDate(idDocument.expiringDate());
-                            found.setIdDocumentNumber(
-                                    idDocument.idDocumentNumber().value().toLowerCase());
-                            found.setIdDocumentIssuingDate(idDocument.issuingDate());
-                            found.setIdDocumentType(idDocument.idDocumentType());
-                            found.setUpdateDatetime(Instant.now());
-                            found.setEmail(email.value().toLowerCase());
-                            em.merge(found);
-                        },
-                        () -> {
-                            var newRecord = new IdDocumentEntity(
-                                    username.value().toUpperCase(),
-                                    email.value().toLowerCase(),
-                                    idDocument.fiscalCode().value(),
-                                    idDocument.idDocumentNumber().value().toUpperCase(),
-                                    idDocument.idDocumentType(),
-                                    idDocument.issuingDate(),
-                                    idDocument.expiringDate(),
-                                    idDocument.documentUrl().value().toLowerCase());
-                            em.persist(newRecord);
-                        });
+                        found -> em.merge(mapEntity(found, idDocument, email)),
+                        () -> em.persist(mapNewRecord(idDocument, username, email)));
+    }
+
+    private IdDocumentEntity mapNewRecord(ProcessedDocument idDocument, Username username, Email email) {
+        return new IdDocumentEntity(
+                username.value().toUpperCase(),
+                email.value().toLowerCase(),
+                idDocument.fiscalCode().value(),
+                idDocument.idDocumentNumber().value().toUpperCase(),
+                idDocument.idDocumentType(),
+                idDocument.issuingDate(),
+                idDocument.expiringDate(),
+                idDocument.documentUrl().value().toLowerCase());
+    }
+
+    private IdDocumentEntity mapEntity(IdDocumentEntity foundEntity, ProcessedDocument idDocument, Email email) {
+        foundEntity.setIdDocumentExpiringDate(idDocument.expiringDate());
+        foundEntity.setIdDocumentNumber(idDocument.idDocumentNumber().value().toUpperCase());
+        foundEntity.setIdDocumentIssuingDate(idDocument.issuingDate());
+        foundEntity.setIdDocumentType(idDocument.idDocumentType());
+        foundEntity.setUpdateDatetime(Instant.now());
+        foundEntity.setEmail(email.value().toLowerCase());
+
+        return foundEntity;
     }
 }
