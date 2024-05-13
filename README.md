@@ -35,7 +35,7 @@ It writes logs only if expired documents are found.
 The project is organized with a multimodule structure and follows the "Hexagonal" Architectural Pattern: 
 - the `onboarding-domain` module has non dependencies on other modules and contains the domain logic for the application.
 - the `onboarding-inbound` module depends on domain and is the adapter for the incoming requests.
-- the `onboarding-outbound` module depends on domain and is the adapter to the database for persistence and to the external services, like OCR and emailer.
+- the `onboarding-outbound` module depends on domain and is the adapter to the database for persistence and to the external services, like OCR and emailer. It also  contains the emailer task.
 - the `onboarding` module is the wrapper module that depends on all other and represents the starting point for the applications. It also contains app configurations and integration tests.
 
 Other patterns I used in the project:
