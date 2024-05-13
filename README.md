@@ -1,56 +1,44 @@
-# code-with-quarkus
+# onboarding-challenge
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
-
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+This project uses Quarkus to build a service that allows users to upload an ID document image, 
+in order to be processed from an external OCR.
 
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
 ```shell script
-./mvnw compile quarkus:dev
+mvn clean compile quarkus:dev
 ```
+This will also start testcontainers for external services like Keycloak and Postgresql.
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
-
-## Packaging and running the application
-
-The application can be packaged using:
+To run the tests: 
 ```shell script
-./mvnw package
-```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+mvn clean verify
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+> **_NOTE:_**  This project uses my library [java-try-monad](https://github.com/anbonifacio/java-try-monad) from its GitHub maven repo .
+> In order to install it you must have a GitHub `read:packages` token configured in .m2/settings.xml or clone and `mvn install` the git repo locally.
 
-## Creating a native executable
+## Testing the application
 
-You can create a native executable using: 
-```shell script
-./mvnw package -Dnative
-```
+After the project is started, a swagger-ui can be accessed at http://localhost:8080/q/swagger-ui.
+In order to do some test calls, you need to generate a Bearer token from Keycloak using the Quarkus DevUI at http://localhost:8080/q/dev-ui/io.quarkus.quarkus-oidc/keycloak-provider.
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
+Keycloak is preconfigured with a realm with 2 users, `alice:alice` and `jdoe:jdoe`. User alice can use the application,
+since she has a valid email. User jdoe should give 403.
 
-You can then execute your native executable with: `./target/code-with-quarkus-1.0.0-SNAPSHOT-runner`
+A background task is set to run every 10s and queries the db for expired documents in order to send email notifications.
+It writes logs only if expired documents are found.
 
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
+## Code structure
 
-## Provided Code
+The project is organized with a multimodule structure and follows the "Hexagonal" Architectural Pattern: 
+- the `onboarding-domain` module has non dependencies on other modules and contains the domain logic for the application.
+- the `onboarding-inbound` module depends on domain and is the adapter for the incoming requests.
+- the `onboarding-outbound` module depends on domain and is the adapter to the database for persistence and to the external services, like OCR and emailer.
+- the `onboarding` module is the wrapper module that depends on all other and represents the starting point for the applications. It also contains app configurations and integration tests.
 
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+Other patterns I used in the project:
+- newtype pattern (using Java records)
+- builder pattern
+- repository pattern
